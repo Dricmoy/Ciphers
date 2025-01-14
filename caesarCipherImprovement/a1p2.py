@@ -60,6 +60,12 @@ def encrypt(message: str, key: str):
     shiftdict, letterdict= get_map() 
 
     for index, char in enumerate(encrypted_message):
+        if (index != 0):
+            key = message[index-1] #so the previous letter
+            while (not key.isalpha()): #so while we hit punctuations
+                index -= 1
+                key = message[index-1] #try the letter before it
+            
         if (char.isalpha()): #check if its not special letters
             encrypted_message[index] = letterdict[(shiftdict[char] + shiftdict[key]) % 52]
             #I need to %52 so it doesn't go out of bounds and wraps around letterdict, for ex:- 'c' + 'x' = 5 + 47 = 52 (wraps to 0) 
@@ -81,8 +87,7 @@ def decrypt(message: str, key: str):
 def test():
     global SHIFTDICT, LETTERDICT 
     SHIFTDICT, LETTERDICT = get_map()
-    assert decrypt(encrypt("foo", "g"), "g") == "foo"
-
+    assert decrypt(encrypt("AaBbCcDd...", "y"), "y") == "AaBbCcDd..."
 
 if __name__ == "__main__" and not flags.interactive:
     test()
