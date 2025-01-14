@@ -55,39 +55,70 @@ def get_map(letters=LETTERS):
     
     return char_to_index, shift_to_char
 
+#tricky: here have to use original unmodified letter as key
 def encrypt(message: str, key: str):
     encrypted_message = list(message) #convert from string to list for mutability
-    shiftdict, letterdict= get_map() 
+    shiftdict, letterdict= get_map()
+    
+    #must ignore all punctuations till first letter
+    letter_index = 0 #will be used to skip punctuations and find index to first letter hit
+    for index in range(len(message)):
+        if message[index].isalpha:
+           break 
+        letter_index += 1
+    
+    # now we have the first index that is not a letter and we encrypt it + store
+    encrypted_message[letter_index] = letterdict[(shiftdict[message[letter_index]] + shiftdict[key]) % 52] #I need to %52 so it doesn't go out of bounds and wraps around letterdict, for ex:- 'c' + 'x' = 5 + 47 = 52 (wraps to 0) 
+    
+    # now we encrypt the rest of the letters
+    for index in range(letter_index + 1, len(message)):        
+        char = message[index]
 
-    for index, char in enumerate(encrypted_message):
-        if (index != 0):
-            key = message[index-1] #so the previous letter
-            while (not key.isalpha()): #so while we hit punctuations
-                index -= 1
-                key = message[index-1] #try the letter before it
-            
-        if (char.isalpha()): #check if its not special letters
+        key = message[index-1] #needs to be the non encrypted version of the previous letter
+        letter_index = index - 1
+        while not key.isalpha():
+            key = message[letter_index]
+            letter_index -= 1 #going back till we find a letter
+        
+        if (char.isalpha()): #current char is a letter 
             encrypted_message[index] = letterdict[(shiftdict[char] + shiftdict[key]) % 52]
-            #I need to %52 so it doesn't go out of bounds and wraps around letterdict, for ex:- 'c' + 'x' = 5 + 47 = 52 (wraps to 0) 
             
     return ''.join(encrypted_message) #make it into a string again
 
-
+# here have to use decrypted val instead of passed in encrypted letters as key
 def decrypt(message: str, key: str):
     decrypted_message = list(message) #convert from string to list for mutability
     shiftdict, letterdict = get_map() 
     
-    for index, char in enumerate(decrypted_message): 
-        if (char.isalpha()): #check if its not special letters
+    #must ignore all punctuations till first letter
+    letter_index = 0 #will be used to skip punctuations and find index to first letter hit
+    for index in range(len(message)):
+        if message[index].isalpha:
+           break 
+        letter_index += 1
+    
+    # now we have the first index that is not a letter and we encrypt it + store
+    decrypted_message[letter_index] = letterdict[(shiftdict[message[letter_index]] - shiftdict[key]) % 52] #I need to %52 so it doesn't go out of bounds and wraps around letterdict, for ex:- 'c' + 'x' = 5 + 47 = 52 (wraps to 0) 
+    
+    # now we decrypt the rest of the letters
+    for index in range(letter_index + 1, len(message)):        
+        char = message[index]
+
+        key = decrypted_message[index-1] #needs to be the decrypted version of the previous letter
+        letter_index = index - 1
+        while not key.isalpha():
+            key = decrypted_message[letter_index]
+            letter_index -= 1 #going back till we find a letter
+        
+        if (char.isalpha()): #current char is a letter 
             decrypted_message[index] = letterdict[(shiftdict[char] - shiftdict[key]) % 52]
-            #I need to %52 so it doesn't go out of bounds and wraps around letterdict, for ex:- 'c' + 'x' = 5 + 47 = 52 (wraps to 0) 
-          
+       
     return ''.join(decrypted_message) #make it into a string again
 
 def test():
     global SHIFTDICT, LETTERDICT 
     SHIFTDICT, LETTERDICT = get_map()
-    assert decrypt(encrypt("AaBbCcDd...", "y"), "y") == "AaBbCcDd..."
+    assert decrypt(encrypt("foo", "g"), "g") == "foo"
 
 if __name__ == "__main__" and not flags.interactive:
     test()
