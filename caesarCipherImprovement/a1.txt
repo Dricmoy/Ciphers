@@ -4,16 +4,16 @@ Note:
 2. Any other change in the template might result in a potential mark deduction.
 
 Original caesar cipher
-  Answer: 26 (Number)
-  Explanation: There are 26 characters in the symbol list that are used as distinct keys/shifts for the same message (10-20 words)
+  Answer: 25 (Number)
+  Explanation: There are 26 possible keys but one('A) doesn't produce a unique ciphertext (10-20 words)
 
 Problem 1 implementation
-  Answer: 52 (Number)
-  Explanation: There are 52 distinct characters in the symbol list that can be used as keys/shifts for the same message (10-20 words)
+  Answer: 51 (Number)
+  Explanation: There are double the keys, but one of them ('A') does not produce different ciphertexts for the same message. (10-20 words)
 
 Problem 2 implementation
   Answer: 52 (Number)
-  Explanation: The first letter has 52 distinct keys and all unique ciphertexts depends on that letter (10-20 words)
+  Explanation: All 52 keys produce an unique ciphertext since a shift of 0, still results in the other letters shifting.  (10-20 words)
 
 Problem 3 implementation
   Answer: 52^n (Expression with n is the length of the keyword)
@@ -21,7 +21,7 @@ Problem 3 implementation
 
 4b. Is the problem 2 cipher stronger than the original Caesar cipher?
   Answer: Yes (Yes/No)
-  Explanation: Each letter uses a random transposition despite their depedency on the first key, and unique punctuation handling increases complexity (10-20 words)
+  Explanation: Each letter randomly transposes depending on the first key, and unique punctuation handling increases complexity (10-20 words)
 
 4c. Will encrypting the space help address the weaknesses of the Caesar cipher?
   Answer: Yes (Yes/No)

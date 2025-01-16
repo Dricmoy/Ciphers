@@ -57,7 +57,7 @@ def get_map(letters=LETTERS):
 
 def encrypt(message: str, key: str):
     encrypted_message = list(message) #convert from string to list for mutability
-    shiftdict, letterdict= get_map() 
+    shiftdict, letterdict= SHIFTDICT, LETTERDICT
     
     key_index = 0
     len_key = len(key) #so don't have to repeat this many times, saves computation
@@ -73,7 +73,7 @@ def encrypt(message: str, key: str):
 
 def decrypt(message: str, key: str):
     decrypted_message = list(message) #convert from string to list for mutability
-    shiftdict, letterdict = get_map() 
+    shiftdict, letterdict= SHIFTDICT, LETTERDICT
     
     key_index = 0
     len_key = len(key) #so don't have to repeat this many times, saves computation
@@ -92,5 +92,4 @@ def test():
     assert decrypt(encrypt("foo", "g"), "g") == "foo"
 
 if __name__ == "__main__" and not flags.interactive:
-    print(encrypt("Welcome to 2025 Winter CMPUT 331!", "XxYyZz"))
     test()

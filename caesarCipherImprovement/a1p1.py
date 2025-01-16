@@ -57,11 +57,10 @@ def get_map(letters=LETTERS):
 
 def encrypt(message: str, key: str):
     encrypted_message = list(message) #convert from string to list for mutability
-    shiftdict, letterdict= get_map() 
-
+    
     for index, char in enumerate(encrypted_message):
         if (char.isalpha()): #check if its not special letters
-            encrypted_message[index] = letterdict[(shiftdict[char] + shiftdict[key]) % 52]
+            encrypted_message[index] = LETTERDICT[(SHIFTDICT[char] + SHIFTDICT[key]) % 52]
             #I need to %52 so it doesn't go out of bounds and wraps around letterdict, for ex:- 'c' + 'x' = 5 + 47 = 52 (wraps to 0) 
             
     return ''.join(encrypted_message) #make it into a string again
@@ -69,11 +68,10 @@ def encrypt(message: str, key: str):
 
 def decrypt(message: str, key: str):
     decrypted_message = list(message) #convert from string to list for mutability
-    shiftdict, letterdict = get_map() 
     
     for index, char in enumerate(decrypted_message): 
         if (char.isalpha()): #check if its not special letters
-            decrypted_message[index] = letterdict[(shiftdict[char] - shiftdict[key]) % 52]
+            decrypted_message[index] = LETTERDICT[(SHIFTDICT[char] - SHIFTDICT[key]) % 52]
             #I need to %52 so it doesn't go out of bounds and wraps around letterdict, for ex:- 'c' + 'x' = 5 + 47 = 52 (wraps to 0) 
           
     return ''.join(decrypted_message) #make it into a string again

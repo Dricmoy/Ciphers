@@ -58,7 +58,7 @@ def get_map(letters=LETTERS):
 #tricky: here have to use original unmodified letter as key
 def encrypt(message: str, key: str):
     encrypted_message = list(message) #convert from string to list for mutability
-    shiftdict, letterdict= get_map()
+    shiftdict, letterdict= SHIFTDICT, LETTERDICT
     
     #must ignore all punctuations till first letter
     letter_index = 0 #will be used to skip punctuations and find index to first letter hit
@@ -88,7 +88,7 @@ def encrypt(message: str, key: str):
 # here have to use decrypted val instead of passed in encrypted letters as key
 def decrypt(message: str, key: str):
     decrypted_message = list(message) #convert from string to list for mutability
-    shiftdict, letterdict = get_map() 
+    shiftdict, letterdict= SHIFTDICT, LETTERDICT
     
     #must ignore all punctuations till first letter
     letter_index = 0 #will be used to skip punctuations and find index to first letter hit
